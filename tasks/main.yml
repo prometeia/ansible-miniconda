@@ -11,7 +11,7 @@
   block:
     - name: download installer...
       become: '{{ miniconda_escalate }}'
-      become_user: root
+      become_user: '{{ miniconda_user }}'
       get_url:
         url: '{{ miniconda_installer_url }}'
         dest: /tmp/{{ miniconda_installer_sh }}
@@ -21,7 +21,7 @@
 
     - name: installing....
       become: '{{ miniconda_escalate }}'
-      become_user: root
+      become_user: '{{ miniconda_user }}'
       command: bash /tmp/{{ miniconda_installer_sh }} -b -p {{ miniconda_install_dir }}
       args:
         creates: '{{ miniconda_install_dir }}'
@@ -29,14 +29,14 @@
   always:
     - name: deleting installer...
       become: '{{ miniconda_escalate }}'
-      become_user: root
+      become_user: '{{ miniconda_user }}'
       file:
         path: /tmp/{{ miniconda_installer_sh }}
         state: absent
 
 - name: link miniconda...
   become: '{{ miniconda_escalate }}'
-  become_user: root
+  become_user: '{{ miniconda_user }}'
   file:
     src: '{{ miniconda_install_dir }}'
     dest: '{{ miniconda_link_dir }}'
@@ -44,14 +44,14 @@
 
 - name: update conda pkgs...
   become: '{{ miniconda_escalate }}'
-  become_user: root
+  become_user: '{{ miniconda_user }}'
   when: miniconda_pkg_update
   command: '{{ miniconda_conda_bin }} update -y --all'
 
 - name: remove conda-curl since it conflicts with the system curl
   when: miniconda_make_sys_default
   become: yes
-  become_user: root
+  become_user: '{{ miniconda_user }}'
   conda:
     name: curl
     state: absent
@@ -60,7 +60,7 @@
 - name: make system default python etc...
   when: miniconda_make_sys_default
   become: yes
-  become_user: root
+  become_user: '{{ miniconda_user }}'
   with_items:
     - f: miniconda.sh
       d: /etc/profile.d

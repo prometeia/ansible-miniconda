@@ -9,3 +9,4 @@ miniconda_install_dir: '{{ miniconda_parent_dir }}/{{ miniconda_name }}'
 miniconda_link_dir: '{{ miniconda_parent_dir }}/{{ miniconda_link_subdir }}'
 
 miniconda_conda_bin: '{{ miniconda_link_dir }}/bin/conda'
+miniconda_user: root
