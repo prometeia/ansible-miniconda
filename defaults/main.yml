@@ -63,5 +63,5 @@ miniconda_pkg_update: True
 miniconda_escalate: True
 miniconda_user: root
 
-# disable auto update of conda and dependencies at system level on installation/update of a package in conda environment
-miniconda_disable_auto_updates: True
+# disable at root auto update of conda and dependencies at system level on installation/update of a package in conda environment
+miniconda_disable_auto_updates: False

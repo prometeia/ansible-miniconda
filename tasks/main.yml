@@ -89,10 +89,10 @@
     dest: '{{ item.d }}/{{ item.f }}'
     mode: '{{ item.m|default("0644") }}'
 
-- name: disable auto updates of conda and dependencies
+- name: root disable auto updates of conda and dependencies
   when: miniconda_disable_auto_updates
   become: yes
-  become_user: '{{ miniconda_user }}'
+  become_user: root
   with_items:
     - l: 'update_dependencies: False'
     - l: 'auto_update_conda: False'
